@@ -38,7 +38,17 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
+Player.prototype.handleInput = function(key) {
+	if(key === 'left' && this.x >= 101) { //101 is the width of  the tile
+		this.x -= 101;
+	} else if (key === 'right' && this.x < 404) {//if its 405 here its going off the canvas to the right
+		this.x += 101;
+	} else if (key === 'down' && this.y < 404) {
+		this.y += 83;
+	} else if (key === 'up' && this.y >= 73) {
+		this.y -= 83;
+	}
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -54,7 +64,7 @@ document.addEventListener('keyup', function(e) {
 });
 
 var enemyLocation = [64, 147, 230];
-const player = new Player(202, 400, 'images/char-pink-girl.png');
+const player = new Player(202, 405, 'images/char-pink-girl.png');
 const allEnemies = enemyLocation.map((y, index) => {
 	return new Enemy((-100 * (index +1)), y); //+1 because index will be 0 too
 });
