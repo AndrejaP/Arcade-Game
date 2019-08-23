@@ -1,7 +1,10 @@
-
-var Enemy = function() {
-    
+let gameOver = false;
+var Enemy = function(x, y) {
+	this.x = x;
+	this.y = y;
     this.sprite = 'images/enemy-bug.png';
+	this.height = 60;
+	this.width = 80;
 };
 
 // Update the enemy's position, required method for game
@@ -20,8 +23,12 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function() {
-	this.sprite = 'images/char-cat-girl.png';
+var Player = function(x, y, sprite) {
+	this.x = x;
+	this.y = y;
+	this.sprite = sprite;
+	this.height = 75;
+	this.width = 70;
 }
 
 Player.prototype.update = function(dt) {
@@ -31,14 +38,6 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
-
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-const player = new Player();
-const allEnemies = [];
 
 
 // This listens for key presses and sends the keys to your
@@ -52,4 +51,10 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+});
+
+var enemyLocation = [64, 147, 230];
+const player = new Player(202, 400, 'images/char-pink-girl.png');
+const allEnemies = enemyLocation.map((y, index) => {
+	return new Enemy((-100 * (index +1)), y); //+1 because index will be 0 too
 });
