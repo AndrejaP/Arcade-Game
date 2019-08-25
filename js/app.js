@@ -2,60 +2,69 @@ const colWidth = 101;
 const rowHeight = 83;
 let gameOver = false;
 
-var Enemy = function(x, row, speed) {
-	this.x = x;
-	this.row = row;
-    this.sprite = 'images/enemy-bug.png';
-	this.width = 95;
-	this.speed = speed;
-};
+class Enemy {	
+	constructor(x, row, speed) {
+		this.x = x;
+		this.row = row;
+		this.sprite = 'images/enemy-bug.png';
+		this.collision = false;
+		this.speed = speed;
+	}
 
-// Update method updates the enemy's position and handles collision 
-Enemy.prototype.update = function(dt) {
-    // multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+	// Update method updates the enemy's position and handles collision 
+	update(dt) {
+		// multiply any movement by the dt parameter
+		// which will ensure the game runs at the same speed for
+		// all computers.
+		if(!this.collision) {
+			this.x += this.speed * dt;
 
-		this.x += this.speed * dt;
-		
-		if(this.x > 5 * colWidth) {
-			this.x = -1 * colWidth;
-			this.speed = 100 + (Math.random() * 300);
+			if(this.x > 5 * colWidth) {
+				this.x = -1 * colWidth;
+				this.speed = 100 + (Math.random() * 300);
+			}
+
+			checkCollision(this);
 		}
-	
-};
+	}
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, (this.row * rowHeight) - 20);
-};
+	// Draw the enemy on the screen, required method for game
+	render() {
+		ctx.drawImage(Resources.get(this.sprite), this.x, (this.row * rowHeight) - 20);
+	}
+}
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function(sprite = 'images/char-boy.png') {
-	this.col = 2;
-	this.row = 5;
-	this.sprite = sprite;
-	this.width = 70;
-}
+class Player {
+	constructor(sprite = 'images/char-boy.png') {
+		this.col = 2;
+		this.row = 5;
+		this.sprite = sprite;
+		this.collision = false;
+	}
 
-Player.prototype.update = function(dt) {
-}
+	update(dt) {
+		
+	}
+	
+	render() {
+		ctx.drawImage(Resources.get(this.sprite), this.col * colWidth, this.row * rowHeight - 10);
+	}
 
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.col * colWidth, this.row * rowHeight - 10);
-};
-
-Player.prototype.handleInput = function(key) {
-	if(key === 'left' && this.col > 0) {
-		this.col --;
-	} else if (key === 'right' && this.col < 4) {
-		this.col ++;
-	} else if (key === 'down' && this.row < 5) {
-		this.row ++;
-	} else if (key === 'up' && this.row > 0) {
-		this.row --;
+	handleInput(key) {
+		if(!this.collision) {
+			if(key === 'left' && this.col > 0) {
+				this.col --;
+			} else if (key === 'right' && this.col < 4) {
+				this.col ++;
+			} else if (key === 'down' && this.row < 5) {
+				this.row ++;
+			} else if (key === 'up' && this.row > 0) {
+				this.row --;
+			}
+		}
 	}
 }
 
@@ -79,5 +88,11 @@ const allEnemies = [
 	new Enemy(-3 * colWidth, 3, 310)
 ];
 
-
-console.log(allEnemies);
+//handling collision
+function checkCollision(enemy) {
+	const leftDiff = player.col * colWidth - enemy.x;
+	if(enemy.row === player.row && leftDiff <= 80 && leftDiff >= -80) {
+		enemy.collision = true;
+		player.collision = true;
+	}
+}
