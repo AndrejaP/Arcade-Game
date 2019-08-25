@@ -1,33 +1,42 @@
+const colWidth = 101;
+const rowHeight = 83;
 let gameOver = false;
-var Enemy = function(x, y) {
+
+var Enemy = function(x, row, speed) {
 	this.x = x;
-	this.y = y;
+	this.row = row;
     this.sprite = 'images/enemy-bug.png';
-	this.height = 60;
-	this.width = 80;
+	this.width = 95;
+	this.speed = speed;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+// Update method updates the enemy's position and handles collision 
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
+    // multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+		this.x += this.speed * dt;
+		
+		if(this.x > 5 * colWidth) {
+			this.x = -1 * colWidth;
+			this.speed = 100 + (Math.random() * 300);
+		}
+	
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, (this.row * rowHeight) - 20);
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function(x, y, sprite) {
-	this.x = x;
-	this.y = y;
+var Player = function(sprite = 'images/char-boy.png') {
+	this.col = 2;
+	this.row = 5;
 	this.sprite = sprite;
-	this.height = 75;
 	this.width = 70;
 }
 
@@ -35,18 +44,18 @@ Player.prototype.update = function(dt) {
 }
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.col * colWidth, this.row * rowHeight - 10);
 };
 
 Player.prototype.handleInput = function(key) {
-	if(key === 'left' && this.x >= 101) { //101 is the width of  the tile
-		this.x -= 101;
-	} else if (key === 'right' && this.x < 404) {//if its 405 here its going off the canvas to the right
-		this.x += 101;
-	} else if (key === 'down' && this.y < 404) {
-		this.y += 83;
-	} else if (key === 'up' && this.y >= 73) {
-		this.y -= 83;
+	if(key === 'left' && this.col > 0) {
+		this.col --;
+	} else if (key === 'right' && this.col < 4) {
+		this.col ++;
+	} else if (key === 'down' && this.row < 5) {
+		this.row ++;
+	} else if (key === 'up' && this.row > 0) {
+		this.row --;
 	}
 }
 
@@ -63,8 +72,12 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-var enemyLocation = [64, 147, 230];
-const player = new Player(202, 405, 'images/char-pink-girl.png');
-const allEnemies = enemyLocation.map((y, index) => {
-	return new Enemy((-100 * (index +1)), y); //+1 because index will be 0 too
-});
+const player = new Player('images/char-pink-girl.png');
+const allEnemies = [
+	new Enemy(-1 * colWidth, 1, 280),
+	new Enemy(-2 * colWidth, 2, 130),
+	new Enemy(-3 * colWidth, 3, 310)
+];
+
+
+console.log(allEnemies);
