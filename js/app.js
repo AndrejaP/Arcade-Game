@@ -43,9 +43,16 @@ class Player {
 		this.row = 5;
 		this.sprite = sprite;
 		this.collision = false;
+		this.score = 0;
+		this.lives = 5;
 	}
 
+	//when the player reaches the water it returns to its inital position
 	update() {
+		if(this.row === 0) {
+			this.score++;
+			setTimeout(() => this.resetPosition(), 1400);
+		}
 	}
 	
 	resetPosition() {
@@ -53,7 +60,6 @@ class Player {
 		this.row = 5;
 		this.collision = false;
 	}
-   
 	
 	render() {
 		ctx.drawImage(Resources.get(this.sprite), this.col * colWidth, this.row * rowHeight - 10);
@@ -99,7 +105,7 @@ function checkCollision(enemy) {
 	if(enemy.row === player.row && Math.abs(player.col * colWidth - enemy.x) <= 82) {
 		enemy.collision = true;
 		player.collision = true;
-		setTimeout(resetCollision, 1000);
+		setTimeout(resetCollision, 1300);
 	}
 }
 
