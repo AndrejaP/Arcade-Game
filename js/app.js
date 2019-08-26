@@ -45,9 +45,15 @@ class Player {
 		this.collision = false;
 	}
 
-	update(dt) {
-		
+	update() {
 	}
+	
+	resetPosition() {
+		this.col = 2;
+		this.row = 5;
+		this.collision = false;
+	}
+   
 	
 	render() {
 		ctx.drawImage(Resources.get(this.sprite), this.col * colWidth, this.row * rowHeight - 10);
@@ -90,9 +96,14 @@ const allEnemies = [
 
 //handling collision
 function checkCollision(enemy) {
-	const leftDiff = player.col * colWidth - enemy.x;
-	if(enemy.row === player.row && leftDiff <= 80 && leftDiff >= -80) {
+	if(enemy.row === player.row && Math.abs(player.col * colWidth - enemy.x) <= 82) {
 		enemy.collision = true;
 		player.collision = true;
+		setTimeout(resetCollision, 1000);
 	}
+}
+
+function resetCollision() {
+	player.resetPosition();
+	allEnemies.forEach(enemy => enemy.collision = false);
 }
