@@ -19,7 +19,7 @@ class Enemy {
 			
 			if(this.x > 5 * this.colWidth) {
 				this.x = -1 * this.colWidth;
-				this.speed = 100 + (Math.random() * 300);
+				this.speed = 150 + (Math.random() * 300);
 			}
 			checkCollision(this);
 		}
@@ -78,14 +78,14 @@ class Player {
 	render() {
 		this.renderLivesAndScore();
 		ctx.drawImage(Resources.get(this.sprite), this.col * this.colWidth, this.row * this.rowHeight - 10);
-		ctx.font = '30px Impact';
+		ctx.font = '27px Impact';
 		ctx.textAlign = 'center';
 		ctx.fillStyle = '#7ACD5D';
 		if(this.gameOver) {
 			ctx.fillStyle = 'red';
-			this.renderText('You\'re', -30);
-			this.renderText('dead!')
-			ctx.drawImage(Resources.get('images/bloodStain.png'), this.col * this.colWidth, this.row * this.rowHeight + 25);
+			this.renderText('You\'re', -31);
+			this.renderText('dead!');
+			ctx.drawImage(Resources.get('images/bloodStain.png'), this.col * this.colWidth + 4, this.row * this.rowHeight + 25);
 		} else if(this.collision) {
 			this.renderText('Ouch!');
 		} else if(this.row === 0) {
@@ -94,7 +94,7 @@ class Player {
 	}
 	
 	renderText(msg, yPos = 0) {
-		ctx.fillText(msg, (this.col + 0.5) * this.colWidth, (this.row * this.rowHeight) + 40 + yPos);
+		ctx.fillText(msg, (this.col + 0.5) * this.colWidth, (this.row * this.rowHeight) + 35 + yPos);
 	}
 	
 	renderLivesAndScore() {
@@ -104,6 +104,13 @@ class Player {
 		ctx.fillText('Lives: ' + this.lives, 12, (7 * this.rowHeight) - 8);
 		ctx.textAlign = 'right';
 		ctx.fillText('Score: ' + this.score, (5 * this.colWidth ) - 12, (7 * this.rowHeight) - 8);
+		if(this.gameOver) {
+			ctx.fillStyle = 'white';
+			ctx.textAlign = 'center';
+			ctx.font = '22px Impact';
+			ctx.fillText('Press ENTER to play again', (2.5 * this.colWidth), (7 * this.rowHeight) -8);
+			
+		}
 	}
 
 	handleInput(key) {
@@ -117,8 +124,10 @@ class Player {
 			} else if (key === 'up' && this.row > 0) {
 				this.row --;
 			}
+		} else if(key == 'enter' && this.gameOver) {
+			this.reset();
 		}
-	}
+ 	}
 }
 
 // This listens for key presses and sends the keys to your
@@ -128,7 +137,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+		13: 'enter'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
