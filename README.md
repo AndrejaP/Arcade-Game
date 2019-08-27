@@ -4,7 +4,7 @@ This is a simple clone of the classic Arcade Frogger game for the Udacity Web De
 Frogger is a 1981 arcade game developed by Gremlin Industries. The object of the game is to direct
 frogs to their homes one by one by crossing a busy road and navigating a river full of hazards.
 
-<img src="img/screenshot.png" alt="Game screenshot">
+<img src="images/screenshot.png" alt="Game screenshot">
 
 ## Instructions
 
