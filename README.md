@@ -1,20 +1,23 @@
-# Classic Arcade Game Clone Project
+# Arcade Game
 
-## Table of Contents
+This is a simple clone of the classic Arcade Frogger game for the Udacity Web Development course. 
+Frogger is a 1981 arcade game developed by Gremlin Industries. The object of the game is to direct
+frogs to their homes one by one by crossing a busy road and navigating a river full of hazards.
 
-- [Instructions](#instructions)
-- [Contributing](#contributing)
+<img src="img/screenshot.png" alt="Game screenshot">
 
 ## Instructions
 
-Use this [rubric](https://review.udacity.com/#!/rubrics/15/view) for self-checking your submission.
+1. How to run the game
 
-Make sure the functions you write are **object-oriented** - either class functions (like `Player` and `Enemy`) or class prototype functions such as `Enemy.prototype.checkCollisions`. Also make sure that the keyword `this` is used appropriately within your class and class prototype functions to refer to the object the function is called upon.
+Clone the repo or download and unzip the zip file in any folder on your computer and open the index.html file in your browser.
 
-Your **README.md** file should be updated with instructions on both how to 1. Run and 2. Play your arcade game.
+2. How to play the game
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+Move the player up, down, left or right with the arrow keys. Your goal is to reach the water at the top of the screen 
+and avoid getting eaten by the bugs. Every time you reach the water, the score goes up. You have 5 lives. Every time you
+get eaten by a bug, you lose one life. To play again, press the Enter key.
 
-## Contributing
+## Licence
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+The content of this repository is licensed under an [MIT license](https://choosealicense.com/licenses/mit/)
