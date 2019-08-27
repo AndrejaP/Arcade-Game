@@ -11,9 +11,7 @@ class Enemy {
 
 	// Update method updates the enemy's position and handles collision 
 	update(dt) {
-		// multiply any movement by the dt parameter
-		// which will ensure the game runs at the same speed for
-		// all computers.
+		//  dt parameter ensure sthe game runs at the same speed for all computers.
 		if(!this.collision) {
 			this.x += this.speed * dt;
 			
@@ -25,15 +23,12 @@ class Enemy {
 		}
 	}
 
-	// Draw the enemy on the screen, required method for game
+	// Draws the enemy on the screen
 	render() {
 		ctx.drawImage(Resources.get(this.sprite), this.x, (this.row * this.rowHeight) - 20);
 	}
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 class Player {
 	constructor(sprite = 'images/char-boy.png') {
 		this.rowHeight = 83;
@@ -64,7 +59,8 @@ class Player {
 		this.col = 2;
 		this.row = 5;
 		this.collision = false;
-		this.isScored = false; // to go back to normal
+		//without this flag the score goes up fast, not 1 point for each time the player reaches the water
+		this.isScored = false; 
 	}
 	
 	handleCollision() {
@@ -130,8 +126,8 @@ class Player {
 	}
 }
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to 
+// Player.handleInput() method. 
 document.addEventListener('keyup', function(e) {
 	var allowedKeys = {
 		37: 'left',
@@ -144,7 +140,9 @@ document.addEventListener('keyup', function(e) {
 	player.handleInput(allowedKeys[e.keyCode]);
 });
 
+//instantiating the objects
 const player = new Player('images/char-pink-girl.png');
+//starting positions and speed of the bugs
 const allEnemies = [
 	new Enemy(-1, 1, 280),
 	new Enemy(-2, 2, 130),
@@ -153,7 +151,7 @@ const allEnemies = [
 
 //handling collision
 function checkCollision(enemy) {
-	//82 = colWidth minus non-transparent parts of images
+	//82 is colWidth minus non-transparent parts of images
 	if(enemy.row === player.row && Math.abs(player.col * player.colWidth - enemy.x) <= 82) {
 		enemy.collision = true;
 		player.handleCollision();
